@@ -1,0 +1,341 @@
+{
+  "info": {
+    "_postman_id": "stock-market-api-collection",
+    "name": "Stock Market API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Verifica que la API esté funcionando correctamente"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Instruments",
+      "item": [
+        {
+          "name": "Buscar Instrumentos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/instruments?search=YPF",
+              "host": ["{{baseUrl}}"],
+              "path": ["instruments"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "YPF",
+                  "description": "Término de búsqueda (ticker o nombre)"
+                }
+              ]
+            },
+            "description": "Busca instrumentos por ticker o nombre"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Portfolio",
+      "item": [
+        {
+          "name": "Obtener Portfolio del Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:userId/portfolio",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":userId", "portfolio"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "1",
+                  "description": "ID del usuario"
+                }
+              ]
+            },
+            "description": "Obtiene el portfolio completo del usuario con sus posiciones y efectivo disponible"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Cash Operations",
+          "item": [
+            {
+              "name": "CASH IN - Depositar Dinero",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 66,\n  \"side\": \"CASH_IN\",\n  \"type\": \"MARKET\",\n  \"amount\": 10000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                },
+                "description": "Deposita dinero en la cuenta del usuario. IMPORTANTE: usar instrumentId 66 (ARS)"
+              },
+              "response": []
+            },
+            {
+              "name": "CASH OUT - Retirar Dinero",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 66,\n  \"side\": \"CASH_OUT\",\n  \"type\": \"MARKET\",\n  \"amount\": 5000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                },
+                "description": "Retira dinero de la cuenta del usuario. IMPORTANTE: usar instrumentId 66 (ARS)"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Market Orders",
+          "item": [
+            {
+              "name": "BUY - Comprar por Cantidad",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 50,\n  \"side\": \"BUY\",\n  \"type\": \"MARKET\",\n  \"size\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                },
+                "description": "Compra una cantidad específica de acciones a precio de mercado"
+              },
+              "response": []
+            },
+            {
+              "name": "BUY - Comprar por Monto",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 50,\n  \"side\": \"BUY\",\n  \"type\": \"MARKET\",\n  \"amount\": 50000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                },
+                "description": "Compra acciones por un monto total específico (calcula automáticamente la cantidad)"
+              }
+            },
+            {
+              "name": "SELL - Vender por Cantidad",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 50,\n  \"side\": \"SELL\",\n  \"type\": \"MARKET\",\n  \"size\": 5\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                },
+                "description": "Vende una cantidad específica de acciones a precio de mercado"
+              }
+            },
+            {
+              "name": "SELL - Vender por Monto",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 50,\n  \"side\": \"SELL\",\n  \"type\": \"MARKET\",\n  \"amount\": 20000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                },
+                "description": "Vende acciones por un monto total específico (calcula automáticamente la cantidad)"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Limit Orders",
+          "item": [
+            {
+              "name": "LIMIT BUY - Orden Limitada de Compra",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 50,\n  \"side\": \"BUY\",\n  \"type\": \"LIMIT\",\n  \"size\": 10,\n  \"limitPrice\": 7500\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                },
+                "description": "Crea una orden de compra con precio límite (se ejecuta cuando el precio llegue al límite)"
+              }
+            },
+            {
+              "name": "LIMIT SELL - Orden Limitada de Venta",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 50,\n  \"side\": \"SELL\",\n  \"type\": \"LIMIT\",\n  \"size\": 5,\n  \"limitPrice\": 8000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                },
+                "description": "Crea una orden de venta con precio límite (se ejecuta cuando el precio llegue al límite)"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

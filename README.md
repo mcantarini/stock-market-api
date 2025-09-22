@@ -219,3 +219,15 @@ $((9 * 120 - 960) / 960) * 100 =  0,125 * 100 = 12,5%$
 Se generó un test funcional para validar el flujo completo de compra, venta y calculo de retornos en: `tests/functional.test.ts`. El mismo se puede ejecturar localmente con el comando `npm test`
 
 Los test corren utilizando una base de datos PostgresSQL que corre en un container aislado dedicado a la ejecucion de pruebas. Para esto se utilizó la librería `@testcontainers/postgresql`.
+
+## Mejoras pendientes
+* Implementar autenticación de usuarios
+* Implementar workflow de ordenes para transicionar ordenes NEW a COMPLETED/REJECTED
+* Implementar paginación en endpoint de portfolio
+* Implementar índices en base de datos para tabla `orders` para consultas frecuentes: `user_id` y `instrument_id`. También en tabla `stock_positions` para consultas por `user_id`.
+* Evaluar caché local o distribuida para almacenar información de activos en consulta por id.
+* Generar tabla adicional o reutilizar `stock_positions` para almacenar dinero disponible del usuario. La forma en la que hacemos el calculo hoy en día no escala.
+* Implementar un pool de conexiones adecuado para el caso de uso.
+* Manejo de errores y logging centralizado.
+* Implementacion de alguna solucion para almacenar variables del tipo "secrets", como el password de la DB.
+* Incluir test unitarios.

@@ -8,7 +8,7 @@ API REST para consultar información del mercado de valores argentino, portfolio
 - **src/db/** - Capa de acceso a datos (DAOs y configuración de Drizzle ORM)
 - **src/domain/** - Lógica de negocio (entities, services, types)
 - **src/shared/** - Constantes y utilidades compartidas
-- **tests/** - Tests funcionales y unitarios
+- **tests/** - Tests funcionales
 - **dist/** - Código JavaScript compilado (generado)
 
 ## Requisitos
@@ -196,7 +196,6 @@ Tenga en cuenta que se llevan a cabo una serie de validaciones sobre la solicitu
 - La API fue desarrollada con el framework Express.js, el codigo base se encuentra integramente escrito en TypeScript y se utilizó Drizzle ORM para la interaccion con modelos de base de datos.
 - La API se conecta a una base de datos PostgreSQL remota.
 - Se creo una tabla adicional para almacenar la posicion de un determinado activo para un Usuario de la plataforma. Puede encontrar la migración en el siguiente archivo `src/db/drizzle/migrations/0001_wide_sally_floyd.sql`. La información se almacena utilizando una PK compuesta por [userId, instrumentId] y se actualiza la información cada vez que un usuario (`userId`) realiza una compra o venta del instrumento (`instrumentId`). Con esto nos evitamos recorrer todas las ordenes de un usuario al momento de realizar el cálculo de tenencias.
-- 
 
 ## Consideraciones funcionales
 - El calculo de rendimiento total de un activo se realiza utilizando el algoritmo de `método de costo promedio ponderado móvil`.
